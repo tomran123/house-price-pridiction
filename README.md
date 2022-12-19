@@ -1,30 +1,17 @@
 # house-price-pridiction
 Hi, everyone!
-这里我第一个github项目，在这个项目里，我要完成一个kaggle上面的竞赛题目，这个竞赛是关于预测房价的，在这个题目里，我们要根据房子的79个特征，如质量，面积，街区，壁炉等，预测相应的房价，数据集分为test.csv和train.csv。
+这里我第一个github项目，在这个项目里，我要完成一个kaggle上面的竞赛题目，这个竞赛是关于预测房价的，在这个题目里，我们要根据房子的79个特征，如质量，面积，街区，壁炉等，预测相应的房价，数据集分为test.csv和train.csv。这个测试集和训练集数据以及代码我放到后面的文件里了。
 
 
-1.首先导入所需要的库：
-![image](https://user-images.githubusercontent.com/110798232/208420988-1a538ce8-62fe-4d29-9343-bb857a121a18.png)
+在这个项目中，我们先用matplotlib对房屋的价格进行了分析，发现是明显的右偏分布，偏度较大，所以后期我们要进行一些处理，使其像正态分布靠拢，所以我们通过对数变换，调到标准的正态分布。
+接着，进行异常值和缺失值的处理，对于缺少的部分离散型数据，我们用众数填充缺失值，
+Functional居家功能性，数据描述说NA表示类型"Typ'。因此，我们用其填充。
+LotFrontage，由于房屋到街道的距离，最有可能与其附近其他房屋到街道的距离相同或相似，因此我们可以通过该社区的LotFrontage中位数来填充缺失值：
+最后我们删除Utlities这个特征，这个特征除了一个-NoSeWNa'和2个 NA，其余值都是 AlIPub'，因此该项特征的方差非常小。这个特征对预测建模没有帮助。因此，我们可以安全地删除它。
+然后我们再把部分数值特征转化为类别特征，对高偏度的数值型特征进行Box——Cox转换。创建和目标特征相关的新的特征。
+通过这一系列处理后，训练集列数增加到163，测试集增加到162
 
 
-2.读取训练集和测试集，检查数据大小，查看前5行的数据：
-![image](https://user-images.githubusercontent.com/110798232/208421535-a485cf15-d3f5-4797-8984-909124435749.png)
-
-![image](https://user-images.githubusercontent.com/110798232/208421341-ff2e88c3-130f-4754-a59f-087b4f6b3271.png)
-
-![image](https://user-images.githubusercontent.com/110798232/208421804-77ec32c4-2045-41ea-86ee-003b50ed2537.png)
-
-![image](https://user-images.githubusercontent.com/110798232/208421834-17d20295-c64a-4484-826c-9747da6a0803.png)
-
-训练集比测试集多出来一列加格列，也是我们测试集的预测目标
-
-![image](https://user-images.githubusercontent.com/110798232/208422173-aeb978e2-b08a-49ea-9172-7b5c9f691ac2.png)
-删除第一行id
+分析并处理完数据后，我们要进行模型的预测了，我采用了三种模型预测的方法：岭回归，lasso和随机森林，通过比较，最终选择错误率最低的lasso模型
 
 
-3.用matplotlib绘制房屋价格
-![image](https://user-images.githubusercontent.com/110798232/208422873-7d1e6b93-6e68-44ec-9854-5cda4348b318.png)
-
-![image](https://user-images.githubusercontent.com/110798232/208423021-87fb7c3a-aa0d-4b0c-b4a7-03f185e0f8b0.png)
-
-通过图像，我们发现是右偏分布，和正态分布有差距，我们再看一下这个分布曲线的峰度和偏度
